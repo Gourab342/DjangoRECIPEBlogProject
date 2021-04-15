@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+{% load static %}
+ <style>
+.parallax {
+  /* The image used */
+  background-image: url("{{post.cover_pic.url}}");
+
+  /* Set a specific height */
+  min-height: 400px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#cover{
+  border-radius: 50%;
+  height: 400px;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.content {
+  overflow: hidden;
+
+}
+#scrollcol {
+    max-height: 1600px;
+    overflow: hidden;
+    overflow-y: scroll;
+
+}
+
+#commentsec {
+    max-height: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
+    }
+</style>
+
+
+
+<!-- Container element -->
+<div class="parallax"></div>
+
+<br>
+<br>
+
+<div class="container">
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+             <img class="img-responsive img-thumbnail" src="{{post.cover_pic.url}}" alt="" id="cover" name="cover">
+        </div>
+        <div class="row pt-4">
+            <center>
+
+             <p> {{post.about|safe}} </p>
+            </center>
+        </div>
+
+
+    </div>
+
+
+ <div class="col-md-6">
+<div class="container">
+<div class="blog-post">
+        <h2 class="blog-post-title">{{post.title}}</h2>
+    {% if post.category %}
+    <a href="{% url 'category' post.category.slug %}">
+        <strong>{{post.category.name}}</strong></a>
+    {% else %}
+    {% endif %}
+         <div class="row py-3">
+         <div class="col-md-1  ">
+             {% if post.author.profile_pic %}
+             {% if post.author.is_superuser == 1 %}
+        <img class="avatar" src="{{post.author.profile_pic.url}}"  alt="user" >
+            {% else %}
+           <img class="avatar" src="{{post.author.profile_pic}}"  alt="user" >
+            {% endif %}
+             {% else %}
+             <img class="avatar" src="{%static 'assets/img/default-avatar.png'%}"  alt="user" >
+             {% endif %}
+
+         </div>
+          <div class="col-md-10 px-3">
+        <p class="blog-post-meta">{{post.timeStamp}} by<br> <a href="#">{{post.author}}</a>
+        <br>
+            <strong>Author:</strong> {{post.author.first_name}} {{post.author.last_name}}
+
+        </p>
+          </div>
+             <div class="col-md-1  ">
+
+         </div>
+    </div >
+    <div class="content">
+    <p> {{post.content|safe}} </p>
+    </div>
+        <hr>
+      </div>
+      </div>
+
+
+
+
+     <div class="container" >
+    <h2> Comments</h2>
+         {%if user.is_authenticated%}
+            <form action="/postComment" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            <label for="exampleInputEmail1">Post Comment </label>
+            <input type="text" class="form-control" name="comment" placeholder="Enter comment here">
+            </div>
+            <input type="hidden" name="postSno" value="{{post.sno}}">
+            <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+         {% else %}
+            <p>Please Log In First to Comment</p>
+         {% endif %}
+         <div id="commentsec">
+    {% for comment in comments %}
+    <div class="row my-3">
+        <div class="col-md-1 mx-2 ">
+            {% if comment.user.profile_pic %}
+            {% if comment.user.is_superuser == 1 %}
+        <img class="avatar" src="{{comment.user.profile_pic.url}}"  alt="user">
+            {% else %}
+            <img class="avatar" src="{{comment.user.profile_pic}}"  alt="user">
+            {% endif %}
+            {% else %}
+             <img class="avatar" src="{%static 'assets/img/default-avatar.png'%}"  alt="user">
+            {%endif%}
+
+        </div>
+        <div class="col-md-10 ">
+        <b> {{comment.user.username}} </b> at {{comment.timestamp}}
+        <div>   {{comment.comment}} </div>
+    </div>
+    </div>
+    {% endfor %}
+         </div>
+
+</div>
+    </div>
+
+ <div class="col-md-3" id="scrollcol">
+
+     <center>
+         <h5>
+            <p><strong> More Recipes </strong></p>
+            <p> By {{post.author}} </p>
+         </h5>
+         <hr>
+     {% for allpost in allposts %}
+
+        {% if forloop.counter < 30 %}
+
+          <div>
+               <center>
+               <a href="http://127.0.0.1:8000/{{allpost.sno}}"> <img src="{{allpost.cover_pic.url}}" class="image-responsive" height="150" width="250"></a>
+              <p> {{allpost.title}}</p>
+     </center>
+           </div>
+     {% else %}
+     {% endif %}
+
+
+          {% endfor %}
+     </center>
+      </div>
+
+
+        </div>
+
+
+
+
+
+ </div>
+
+</div>
+</div>
+<div class="parallax"></div>
+
+
+
+
+
+ {% endblock %}

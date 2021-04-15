@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+
+{% block body %}
+<div class="container">
+    <h1>ADD BLOGS</h1>
+
+<form action="/add_blogger_save/" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+
+    {{form.as_p}}
+    <button>post</button>
+</form>
+
+
+
+
+
+</div>
+
+
+{% endblock %}

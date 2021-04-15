@@ -1,0 +1,25 @@
+{%extends 'blog/basic.html'%}
+
+
+{% block body %}
+{% if user == obj.author %}
+<div class="container">
+    <h1>DELETE CONFIRMATON</h1>
+    <form method="post" action="delete">
+        {% csrf_token %}
+
+
+    want to delete post {{obj.title}}?
+
+     <button class="btn btn-danger ">DELETE</button><a href="../"> cancel</a>
+
+     </form>
+
+
+
+</div>
+{% else %}
+<p> You don't have the permission to delete this post</p>
+{% endif %}
+
+{% endblock %}

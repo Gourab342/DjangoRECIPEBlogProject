@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<style>
+.parallax {
+  /* The image used */
+  background-image: url("{% static 'images/paneer-butter-masala-1.jpg' %}");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.card {
+  text-align: center;
+  }
+.col-md-6 {
+           box-shadow: 0px 1px 2px 1px #000;
+           }
+</style>
+
+<div class="parallax"></div>
+
+
+
+<div class="container my-3">
+    <h2>Recently Added Recipes </h2>
+    <div class="row">
+    {% for post in allPosts %}
+
+<div class="col-md-6 pt-2">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{post.author}}</strong>
+          <h3 class="mb-0">{{post.title| truncatechars:30}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+          <div class="mb-1 text-muted">{{post.category.name}}</div>
+          <p class="card-text mb-auto">{{post.about| truncatechars:100 |safe}}</p>
+          <a href="/{{post.sno}}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="{{post.cover_pic.url}}" width="250" height="350">
+        </div>
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+
+
+
+
+     </div>
+
+    <div class="container-fluid mb-4 ">
+        {% if allPosts.has_previous%}
+        <div id="prev" align="left">
+       <a href="{% url 'posts' %}?page={{allPosts.previous_page_number}}" class="btn btn-outline-success "> Previous </a>
+        </div>
+
+        {% endif %}
+        {% if allPosts.has_next%}
+        <div id="next" align="right">
+    <a href="{% url 'posts' %}?page={{allPosts.next_page_number}}" class="btn btn-outline-success ">  Next  </a>
+        </div>
+        {% endif %}
+</div>
+</div >
+<br>
+<br>
+<br>
+
+<div class="parallax"></div>
+
+
+{% endblock %}

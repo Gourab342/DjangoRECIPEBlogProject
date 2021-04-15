@@ -1,0 +1,55 @@
+{%extends 'base.html'%}
+{% block head %}
+{% load static %}
+
+<style>
+
+   .parallax {
+  /* The image used */
+  background-image: url("{% static 'images/img.png' %}");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+   .container {
+     color: white;
+
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="parallax">
+    <br>
+    <br>
+<div class="container">
+
+        <div class="col-md-11 col-sm-offset-1 bg-dark mx-4 col-">
+    <h1>Edit Your Recipe</h1>
+            <br>
+<div class="container mx-4">
+<form method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{form.media}}
+    {{form.as_p}}
+
+
+    <button>post</button>
+</form>
+    </div>
+        </div>
+</div>
+
+
+
+
+</div>
+
+
+{% endblock %}

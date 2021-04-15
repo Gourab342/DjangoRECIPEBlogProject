@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% load static %}
+
+
+
+
+
+
+
+
+ <style>
+.parallax {
+  /* The image used */
+  background-image: url("{{cat.picture.url}}");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  h1 {
+           font-family: 'Ballet';font-size: 28px;
+           }
+           .col-md-6 {
+           box-shadow: 0px 1px 10px 1px #000;
+           }
+</style>
+
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="parallax"></div>
+
+
+<div class="container my-4">
+<h1>CATEGORY: {{cat.name}}</h1>
+
+   <div class="row">
+    {% for post in catposts %}
+
+<div class="col-md-6 mt-2">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{post.author}}</strong>
+          <h3 class="mb-0">{{post.title}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+            <div class="mb-1 text-muted">{{post.category.name}}</div>
+          <p class="card-text mb-auto">{{post.about| truncatechars:100 |safe}}</p>
+          <a href="/{{post.sno}}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="{{post.cover_pic.url}}" width="250" height="350">
+        </div>
+      </div>
+    </div>
+
+{% endfor %}
+
+</div>
+    <div class="container pt-2">
+        <div class="row">
+            <div class="col-md-10 mt-2">
+        <h1>RECIPES YOU MAY LIKE:</h1>
+                </div>
+         <div class="col-md-2 mt-2" align="right">
+        <a class="btn btn-outline-success" href="/posts">see more</a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        {% for post in posts %}
+        {% if forloop.counter < 5 %}
+        <div class="col-md-6 pt-2">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{post.author}}</strong>
+          <h3 class="mb-0">{{post.title}}</h3>
+          <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+            <div class="mb-1 text-muted">{{post.category.name}}</div>
+          <p class="card-text mb-auto">{{post.about| truncatechars:100 |safe}}</p>
+          <a href="/{{post.sno}}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img src="{{post.cover_pic.url}}" width="250" height="350">
+        </div>
+      </div>
+    </div>
+        {% else %}
+        {% endif %}
+
+        {% endfor %}
+    </div>
+    </div>
+ {% endblock %}

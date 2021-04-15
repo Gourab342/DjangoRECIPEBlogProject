@@ -1,0 +1,95 @@
+{%extends 'base.html'%}
+{% block head %}
+{% load static %}
+
+<style>
+
+   .parallax {
+  /* The image used */
+  background-image: url("{% static 'images/img.png' %}");
+
+  /* Set a specific height */
+  min-height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+   .container {
+     color: white;
+
+}
+   #prepost {
+     height: 1080px;
+     overflow: hidden;
+     overflow-y: scroll;
+
+   }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="parallax">
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-md-8 col-sm-offset-2 mx-5">
+    <h1>ADD YOUR RCEIPE HERE</h1>
+
+<form action="/add_Posts_save/" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{form.as_p}}
+    {{formp.media}}
+    {{formp.as_p}}
+    <div align="right" class="my-6">
+    <button type="submit" class="btn btn-success btn-lg" > POST</button>
+        </div>
+</form>
+        </div>
+
+
+
+    <div class="col-md-3 bg-dark" id="prepost">
+            <h4 align="center" class="mt-2"><b> Previous Posts: </b></h4>
+            <hr>
+            {% for post in posts %}
+
+        {% if forloop.counter < 20 %}
+
+            <div class="card bg-dark">
+                <a href="http://127.0.0.1:8000/{{post.sno}}">
+          <img class="card-img-top image-responsive" src="{{post.cover_pic.url}}" alt="" height="200" width="250"></a>
+          <div class="card-body">
+              <div class="row">
+
+                <div class="col-md-8">
+          <strong class="d-inline-block mb-2 ">{{post.title}}</strong>
+                </div>
+                  <div class="col-md-2 p-1" align="right">
+                       <a href="{% url 'editpost' post.pk %}">
+                           <i class='fas fa-pen-nib' style='font-size:24px'></i></a>
+                  </div>
+                  <div class="col-md-2 p-1" align="right">
+                       <a href="http://127.0.0.1:8000/{{post.sno}}/confirmdel">
+                           <i class='fas fa-trash-alt' style='font-size:24px'></i></a>
+                  </div>
+              </div>
+          </div>
+            </div>
+
+
+     {% else %}
+     {% endif %}
+
+
+          {% endfor %}
+        </div>
+
+
+</div>
+
+</div>
+
+
+{% endblock %}
