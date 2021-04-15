@@ -232,6 +232,8 @@ def contact(request):
     return render(request,'webpage/contact.html')
 
 
-def about(request):
-    return render(request, 'webpage/about.html')
+def profile(request, pk):
+    user = CustomUser.objects.filter(id=pk)
+    posts = Post.objects.filter(author=user).all()
+    return render(request, 'webpage/profile.html', {'user': user, 'posts': posts})
 

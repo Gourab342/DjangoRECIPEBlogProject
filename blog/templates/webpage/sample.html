@@ -105,7 +105,7 @@
           {% if user.is_authenticated %}
           No posts yet .. <a href="{% url 'Addpostform' %}"> Add Post</a>
           {% else %}
-          no posts yet .. <a href="{% url 'login' %}"> log in </a> to add recipes
+          no posts yet
           {% endif %}
           {% else %}
 
@@ -191,13 +191,7 @@
             </div>
         </div>
      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
-         {% if allposts|length < 1 %}
-          {% if user.is_authenticated %}
-          No posts yet .. <a href="{% url 'Addpostform' %}"> Add Post</a>
-          {% else %}
-          no posts yet .. <a href="{% url 'login' %}"> log in </a> to add recipes
-          {% endif %}
-          {% else %}
+
     {% for post in allPosts %}
 
 
@@ -231,7 +225,6 @@
 
 
         {% endfor %}
-         {% endif %}
 
     </div>
 </div>
